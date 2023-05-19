@@ -22,4 +22,5 @@ public interface BankAccountService {
     void transfer(String accountIdSource,String accountIdDestination,double amount ) throws BankAccountNotFoundException, BalanceNotSufficientException;
 
 
+    List<BankAccount> bankAccountList();
 }

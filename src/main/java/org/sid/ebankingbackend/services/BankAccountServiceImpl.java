@@ -10,9 +10,6 @@ import org.sid.ebankingbackend.exception.CustomerNotFoundException;
 import org.sid.ebankingbackend.repositories.AccountOperationRepository;
 import org.sid.ebankingbackend.repositories.BankAccountRepository;
 import org.sid.ebankingbackend.repositories.CustomerRepositoriy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -129,4 +126,10 @@ public class BankAccountServiceImpl implements BankAccountService{
 debit(accountIdSource,amount,"Transfere to"+accountIdDestination);
 credit(accountIdDestination,amount,"Transfere from"+accountIdSource);
     }
+    @Override
+     public  List<BankAccount> bankAccountList(){
+        return  bankAccountRepository.findAll();
+    }
+
+
 }
