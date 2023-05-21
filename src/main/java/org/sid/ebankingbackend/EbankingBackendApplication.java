@@ -1,5 +1,6 @@
 package org.sid.ebankingbackend;
 
+import org.sid.ebankingbackend.dtos.CustomerDTO;
 import org.sid.ebankingbackend.entities.*;
 import org.sid.ebankingbackend.enums.AccountStatus;
 import org.sid.ebankingbackend.enums.OperationType;
@@ -75,7 +76,7 @@ public class EbankingBackendApplication {
         return args -> {
 
             Stream.of("Hassan", "Imane", "Mohamed").forEach(name -> {
-                Customer customer = new Customer();
+                CustomerDTO customer = new CustomerDTO();
                 customer.setName(name);
                 customer.setEmail(name + "@gmail.com");
                 bankAccountService.saveCustomer(customer);
