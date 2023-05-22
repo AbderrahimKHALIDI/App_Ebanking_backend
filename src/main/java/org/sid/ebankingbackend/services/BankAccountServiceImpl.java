@@ -152,4 +152,16 @@ credit(accountIdDestination,amount,"Transfere from"+accountIdSource);
         Customer customer = customerRepositoriy.findById(customerId).orElseThrow(() -> new CustomerNotFoundException("Customer Not Found "));
         return dtoMapper.fromCustomer(customer);
     }
+    @Override
+    public CustomerDTO updateCustomer(CustomerDTO customerDTO) {
+        log.info("Update  Customer");
+        Customer customer=dtoMapper.fromCustomerDTO(customerDTO);
+        Customer savedCustomer=customerRepositoriy.save(customer);
+        return dtoMapper.fromCustomer(savedCustomer);
+    }
+    @Override
+    public void deleteCustomer(Long customerId){
+        customerRepositoriy.deleteById(customerId);
+
+    }
 }
