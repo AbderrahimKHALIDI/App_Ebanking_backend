@@ -2,7 +2,9 @@ package org.sid.ebankingbackend.web;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sid.ebankingbackend.dtos.AccountOperationDTO;
 import org.sid.ebankingbackend.dtos.CustomerDTO;
+import org.sid.ebankingbackend.entities.AccountOperation;
 import org.sid.ebankingbackend.entities.Customer;
 import org.sid.ebankingbackend.exception.CustomerNotFoundException;
 import org.sid.ebankingbackend.services.BankAccountService;
@@ -36,5 +38,6 @@ return bankAccountService.getCustomer(customerId);
         public void deleteCustomer(@PathVariable Long id){
         bankAccountService.deleteCustomer(id);
         }
+
 
 }
