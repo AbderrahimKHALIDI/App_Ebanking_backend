@@ -42,4 +42,5 @@ CurrentBankAccountDTO saveCurrentBankAccount(double initialBalance, double overD
     AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException;
 
     List<CustomerDTO> searchCustomers(String keyword);
+    BankAccountByCustomerDTO BANK_ACCOUNT_BY_CUSTOMER(Long customerId, int page, int size) throws CustomerNotFoundException;
 }

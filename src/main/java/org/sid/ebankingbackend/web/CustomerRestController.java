@@ -3,6 +3,7 @@ package org.sid.ebankingbackend.web;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sid.ebankingbackend.dtos.AccountOperationDTO;
+import org.sid.ebankingbackend.dtos.BankAccountByCustomerDTO;
 import org.sid.ebankingbackend.dtos.CustomerDTO;
 import org.sid.ebankingbackend.entities.AccountOperation;
 import org.sid.ebankingbackend.entities.Customer;
@@ -45,6 +46,12 @@ return bankAccountService.getCustomer(customerId);
         public void deleteCustomer(@PathVariable Long id){
         bankAccountService.deleteCustomer(id);
         }
-
+    @GetMapping("/customer-accounts/{customerId}")
+    public BankAccountByCustomerDTO getBankAccountsByCustomer(
+            @PathVariable Long customerId,
+            @RequestParam(name="page",defaultValue = "0") int page,
+            @RequestParam(name="size",defaultValue = "5") int size) throws CustomerNotFoundException {
+        return bankAccountService.BANK_ACCOUNT_BY_CUSTOMER(customerId, page, size);
+    }
 
 }
