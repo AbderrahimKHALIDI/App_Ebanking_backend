@@ -111,11 +111,11 @@ public class BankAccountServiceImpl implements BankAccountService{
     @Override
     public void debit(String accountId, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientException {
         BankAccount bankAccount = bankAccountRepository.findById(accountId)
-                .orElseThrow(() -> new BankAccountNotFoundException("Bank Account Not Found"));
-        if(bankAccount.getBalance()<amount){
-            throw new BalanceNotSufficientException("Balance no suffisant");
-        }
-        AccountOperation accountOperation=new AccountOperation();
+                .orElseThrow(() -> new BankAccountNotFoundException("BankAccount not found"));
+        if (bankAccount.getBalance() < amount)
+            throw new BalanceNotSufficientException("Balance not sufficient");
+
+        AccountOperation accountOperation =   new AccountOperation();
         accountOperation.setType(OperationType.DEBIT);
         accountOperation.setAmount(amount);
         accountOperation.setDescription(description);
@@ -124,14 +124,14 @@ public class BankAccountServiceImpl implements BankAccountService{
         accountOperationRepository.save(accountOperation);
         bankAccount.setBalance(bankAccount.getBalance()-amount);
         bankAccountRepository.save(bankAccount);
-
     }
 
     @Override
     public void credit(String accountId, double amount, String description) throws BankAccountNotFoundException {
         BankAccount bankAccount = bankAccountRepository.findById(accountId)
-                .orElseThrow(() -> new BankAccountNotFoundException("Bank Account Not Found"));
-        AccountOperation accountOperation=new AccountOperation();
+                .orElseThrow(() -> new BankAccountNotFoundException("BankAccount not found"));
+
+        AccountOperation accountOperation = new AccountOperation();
         accountOperation.setType(OperationType.CREDIT);
         accountOperation.setAmount(amount);
         accountOperation.setDescription(description);
@@ -144,8 +144,8 @@ public class BankAccountServiceImpl implements BankAccountService{
 
     @Override
     public void transfer(String accountIdSource, String accountIdDestination, double amount) throws BankAccountNotFoundException, BalanceNotSufficientException {
-debit(accountIdSource,amount,"Transfere to"+accountIdDestination);
-credit(accountIdDestination,amount,"Transfere from"+accountIdSource);
+        debit(accountIdSource, amount, "Transfer to " + accountIdDestination);
+        credit(accountIdDestination, amount, "Transfer from " + accountIdSource);
     }
     @Override
     public List<BankAccountDTO> bankAccountList() {
@@ -179,7 +179,7 @@ public List<AccountOperationDTO> accountHistory(String accountId){
     public AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException {
         BankAccount bankAccount=bankAccountRepository.findById(accountId).orElse(null);
         if (bankAccount==null)throw new BankAccountNotFoundException("Account not found");
-        Page<AccountOperation> accountOperations =  accountOperationRepository.findByBankAccountId(accountId, PageRequest.of(page, size));
+        Page<AccountOperation> accountOperations =  accountOperationRepository.findByBankAccountIdOrderByOperationDateDesc(accountId, PageRequest.of(page, size));
        AccountHistoryDTO accountHistoryDTO=new AccountHistoryDTO();
         List<AccountOperationDTO> accountOperationDTOS = accountOperations.getContent().stream().map(op -> dtoMapper.fromAccountOperation(op)).collect(Collectors.toList());
         accountHistoryDTO.setAccountOperationDTOS(accountOperationDTOS);
